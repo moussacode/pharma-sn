@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FournisseurController;
+use App\Http\Controllers\LivraisonController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategorieController;
@@ -45,7 +46,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('{categorie}','destroy')->name('categories.destroy');
         Route ::get('search','search')->name('search');
     });
-    
+
     Route::controller(FournisseurController::class)->prefix('fournisseurs')->group(function(){
         Route::get('','index')->name('fournisseurs');
         Route::get('create','create')->name('fournisseurs.create');
@@ -54,6 +55,15 @@ Route::middleware('auth')->group(function () {
         Route::put('{fournisseur}','update')->name('fournisseurs.update');
         Route::delete('{fournisseur}','destroy')->name('fournisseurs.destroy');
         Route ::get('search','search')->name('search');
+    });
+    Route::controller(LivraisonController::class)->prefix('livraisons')->group(function() {
+        Route::get('', 'index')->name('livraisons');
+        Route::get('create', 'create')->name('livraisons.create');
+        Route::post('store', 'store')->name('livraisons.store');
+        Route::get('{livraison}/edit', 'edit')->name('livraisons.edit');
+        Route::put('{livraison}', 'update')->name('livraisons.update');
+        Route::delete('{livraison}', 'destroy')->name('livraisons.destroy');
+        Route::get('search', 'search')->name('livraisons.search');
     });
     Route::get('/profile', [App\Http\Controllers\AuthController::class, 'profile'])->name('profile');
 });

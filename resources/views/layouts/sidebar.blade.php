@@ -53,7 +53,7 @@
 
     <!-- Livraisons -->
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{ route('livraisons') }}">
             <i class="fas fa-fw fa-box-open"></i>
             <span>Livraisons</span>
         </a>
