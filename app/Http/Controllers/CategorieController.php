@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CategorieController extends Controller
 {
@@ -11,7 +14,8 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        return view('categories.listes');
+        $categories = Categorie:: orderBy('created_at', 'desc')->paginate(1);
+        return view('categories.listes',['categories' => $categories]);
     }
 
     /**
@@ -19,7 +23,7 @@ class CategorieController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.create');
     }
 
     /**
@@ -27,7 +31,22 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'libele_categorie' => 'required',
+            
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return redirect()->route('categories.create')
+                ->withInput()
+                ->withErrors($validator);
+                
+        }
+        $categorie = new Categorie();
+        $categorie->libele_categorie = $request->libele_categorie;
+        $categorie->save();
+       
+        return redirect()->route('categories') ->with('success', 'Categorie ajoutée avec succès');
     }
 
     /**
@@ -35,30 +54,66 @@ class CategorieController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
+    public function search(Request $request){
+        if (!empty($request)) {
+            $search = $request->input('search');
+
+            $categories = Categorie::where(
+                'libele_categorie',
+                'like',
+                "$search%"
+            )
+                
+                ->paginate(2);
+
+            return view('categories.listes', compact('categories'));
+        }
+        
+        $products = DB::table('categories')
+        ->orderBy('id', 'DESC')
+        ->paginate(5);
+        return view('categories.listes', compact('categories'));
+     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( $id)
     {
-        //
+       $categorie = Categorie::findOrFail($id);
+       return view('categories.edit', ['categorie' => $categorie]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,  $id)
     {
-        //
-    }
+        
+        $categorie = Categorie::findOrFail($id);
+        $rules = [
+            'libele_categorie' => 'required',
+            
+        ];
+        $validator = Validator::make($request->all(), $rules);
 
+        if ($validator->fails()) {
+            return redirect()->route('categories.edit', $categorie->id)->withInput()->withErrors($validator);
+        }
+
+        $categorie->libele_categorie = $request->libele_categorie;
+        $categorie->save();
+        return redirect()->route('categories') ->with('success', 'Categorie modifiée avec succès');
+    }
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( $id)
     {
-        //
+        $categorie = Categorie::findOrFail($id);
+        $categorie->delete();
+        return redirect()->route('categories') ->with('success', 'Categorie supprimée avec succès');
     }
 }

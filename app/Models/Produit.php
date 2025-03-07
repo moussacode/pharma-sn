@@ -18,4 +18,10 @@ class Produit extends Model
         return $this->belongsTo(Categorie::class);
     }
 
+    // Relation avec Livraison
+    public function livraison()
+    {
+        return $this->belongsTo(Livraison::class);
+    }
+
 }

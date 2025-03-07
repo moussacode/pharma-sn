@@ -45,7 +45,7 @@
 
     <!-- Fournisseurs -->
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{ route('fournisseurs') }}">
             <i class="fas fa-fw fa-truck"></i>
             <span>Fournisseurs</span>
         </a>
