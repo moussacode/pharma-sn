@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('livraisons', function (Blueprint $table) {
             $table->id();
             $table->foreignId('fournisseur_id')->constrained('fournisseurs');
-        $table->foreignId('produit_id')->constrained('produits');
-        $table->date('date');
-        $table->integer('quant');
+            $table->foreignId('produit_id')->constrained('produits');
+            $table->date('date');
+            $table->integer('quant');
             $table->timestamps();
         });
     }

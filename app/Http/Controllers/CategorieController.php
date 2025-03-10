@@ -14,7 +14,7 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $categories = Categorie:: orderBy('created_at', 'desc')->paginate(1);
+        $categories = Categorie:: orderBy('created_at', 'desc')->paginate(5);
         return view('categories.listes',['categories' => $categories]);
     }
 

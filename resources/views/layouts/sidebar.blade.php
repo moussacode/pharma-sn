@@ -77,7 +77,7 @@
         <div id="collapseUsers" class="collapse" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Gestion Utilisateurs:</h6>
-                <a class="collapse-item" href="">Liste des Utilisateurs</a>
+                <a class="collapse-item"  href="{{ route('users') }}">Liste des Utilisateurs</a>
                 <a class="collapse-item" href="">Créer un Utilisateur</a>
             </div>
         </div>
